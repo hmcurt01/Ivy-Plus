@@ -22,6 +22,9 @@ class StudentStatsWindow:
         act = 0
         menteehours = 0
         minor = 0
+        li = 0
+        firstgen = 0
+        cogat = 0
 
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
@@ -39,8 +42,14 @@ class StudentStatsWindow:
                     menteehours += float(student_dict[i].menteehours)
                 if student_dict[i].gpa != "":
                     gpa += float(student_dict[i].gpa)
+                if student_dict[i].cogat != "":
+                    cogat += float(student_dict[i].cogat)
                 if student_dict[i].minority == "Y" or student_dict[i].minority == "y":
                     minor += 1
+                if student_dict[i].lowincome == "Y" or student_dict[i].minority == "n":
+                    li += 1
+                if student_dict[i].firstgen == "Y" or student_dict[i].firstgen == "n":
+                    firstgen += 1
                 studentamt += 1
 
         try:
@@ -54,6 +63,9 @@ class StudentStatsWindow:
         avgact = act / studentamt
         avgmenteehours = menteehours / studentamt
         minor = minor / studentamt * 100
+        li = li / studentamt * 100
+        cogat = cogat / studentamt * 100
+        firstgen = firstgen / studentamt * 100
 
         self.widgets["totalaid"] = Label(root, text="Total Aid: " + '${:,.2f}'.format(totalaid), bg="lightgrey", bd=2,
                                          height=2, width=30)
@@ -95,6 +107,18 @@ class StudentStatsWindow:
                                        )
         self.widgets["%minor"].place(in_=self.widgets["avgmenteehours"], anchor=SW, relx=0, rely=2,
                                      bordermode="outside")
+
+        self.widgets["%li"] = Label(root, text="Low Income Percentage: " + '%.2f' % li + "%", height=2, width=30, bg=
+                                    "lightgrey")
+        self.widgets["%li"].place(in_=self.widgets["%minor"], anchor=SW, relx=0, rely=2, bordermode="outside")
+
+        self.widgets["avgcogat"] = Label(root, text="Average COGAT " + '%.2f' % cogat, height=2, width=30, bg=
+        "grey62")
+        self.widgets["avgcogat"].place(in_=self.widgets["%li"], anchor=SW, relx=0, rely=2, bordermode="outside")
+
+        self.widgets["firstgen"] = Label(root, text="First Gen Percentage " + '%.2f' % firstgen + "%",
+                                         height=2, width=30)
+        self.widgets["firstgen"].place(in_=self.widgets["avgcogat"], anchor=SW, relx=0, rely=2, bordermode="outside")
 
 
 

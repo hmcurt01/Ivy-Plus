@@ -32,14 +32,15 @@ class QuickAddWindow:
                                                bordermode="outside")
 
                 if self.which == "college":
-                    self.widgets["addcollege"] = Button(root, text="Add", command=lambda: self.add_college(i))
-                    self.widgets["addcollege"].place(in_=self.widgets["entry"][i], anchor=SW, relx=1, rely=1,
+                    self.widgets[i + "addcollege"] = Button(root, text="Add")
+                    self.widgets[i + "addcollege"].place(in_=self.widgets["entry"][i], anchor=SW, relx=1, rely=1,
                                                      bordermode="outside")
+                    self.set_function("college", i)
                 elif self.which == "rec":
-                    self.widgets["addrec"] = Button(root, text="Add", command=lambda: self.add_rec(i))
-                    self.widgets["addrec"].place(in_=self.widgets["entry"][i], anchor=SW, relx=1, rely=1,
+                    self.widgets[i + "addrec"] = Button(root, text="Add", command=lambda: self.add_rec(i))
+                    self.widgets[i + "addrec"].place(in_=self.widgets["entry"][i], anchor=SW, relx=1, rely=1,
                                                      bordermode="outside")
-
+                    self.set_function("rec", i)
 
                 for o, char in sorted(student_dict[i].__dict__.items()):
                     if o == self.which:
@@ -56,8 +57,11 @@ class QuickAddWindow:
                                                     "No", "No", "No", "No", "No", "No", "No", ""))
         self.widgets["entry"][value].delete(0, END)
 
-    def set_function(self, what):
-        
+    def set_function(self, what, value):
+        if what == "college":
+            self.widgets[value + "addcollege"].config(command=lambda: self.add_college(value))
+        else:
+            self.widgets[value + "addrec"].config(command=lambda: self.add_rec(value))
 
     def add_rec(self, value):
         newrec = str(len(student_dict[value].recs) + 1) + self.widgets["entry"][value].get()
