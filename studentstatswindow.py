@@ -112,11 +112,11 @@ class StudentStatsWindow:
                                     "lightgrey")
         self.widgets["%li"].place(in_=self.widgets["%minor"], anchor=SW, relx=0, rely=2, bordermode="outside")
 
-        self.widgets["avgcogat"] = Label(root, text="Average COGAT " + '%.2f' % cogat, height=2, width=30, bg=
+        self.widgets["avgcogat"] = Label(root, text="Average COGAT: " + '%.2f' % cogat, height=2, width=30, bg=
         "grey62")
         self.widgets["avgcogat"].place(in_=self.widgets["%li"], anchor=SW, relx=0, rely=2, bordermode="outside")
 
-        self.widgets["firstgen"] = Label(root, text="First Gen Percentage " + '%.2f' % firstgen + "%",
+        self.widgets["firstgen"] = Label(root, text="First Gen Percentage: " + '%.2f' % firstgen + "%",
                                          height=2, width=30)
         self.widgets["firstgen"].place(in_=self.widgets["avgcogat"], anchor=SW, relx=0, rely=2, bordermode="outside")
 

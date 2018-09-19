@@ -51,12 +51,8 @@ class StudentInfoWindow:
     def save_aid(self):
         for i in self.widgets["colleges"]:
             if i != "clist" and i != "others":
-                try:
-                    testint = int(self.widgets["colleges"][i]["aidentry"].get().replace(" ", ""))
-                    student_dict[self.value].colleges[i].aid = self.widgets["colleges"][i]["aidentry"].get().replace(
-                        " ", "")
-                except ValueError:
-                    return
+                student_dict[self.value].colleges[i].aid = \
+                    self.widgets["colleges"][i]["aidentry"].get().replace(" ", "")
 
     # erases all colleges
     def erase_colleges(self):
@@ -101,6 +97,9 @@ class StudentInfoWindow:
         self.widgets["colleges"][college]["aidentry"].insert(0, student_dict[self.value].colleges[college].aid)
         self.widgets["colleges"][college]["aidentry"].place(in_=self.widgets["colleges"][college][str(college) + "ty"],
                                                             relx=1, rely=1, anchor=SW, bordermode="outside")
+        vcmd = (root.register(self.callback))
+        self.widgets["colleges"][college]["aidentry"].config(validate="key")
+        self.widgets["colleges"][college]["aidentry"].config(validatecommand=(vcmd, "%P"))
 
     # draws information for each college object
     def draw_college_info(self, key, char, student, college, color):
@@ -245,9 +244,9 @@ class StudentInfoWindow:
         vcmd_y = (root.register(self.callback_y))
         totalaid = 0
         for i in student_dict[value].colleges:
-            totalaid += int(student_dict[value].colleges[i].aid)
+            totalaid += float(student_dict[value].colleges[i].aid)
 
-        self.widgets["main"]["totalaid"] = Label(root, text="Total Aid: " + str(totalaid), bg="lightgrey", height=2)
+        self.widgets["main"]["totalaid"] = Label(root, text="Total Aid: " + '${:,.2f}'.format(totalaid), bg="lightgrey", height=2)
         self.widgets["main"]["totalaid"].place(anchor=SW, relx=0, rely=1)
 
         self.widgets["main"]["backButton"] = Button(root, text="Back", command=lambda: self.back(value))

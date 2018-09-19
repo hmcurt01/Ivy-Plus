@@ -1,0 +1,15 @@
+Name: |ACT: | GPA: RACE: EMAIL: PASSW: LM: NM: MEETAMT: MENTEEHOURS: COLLEGEAMT: COLLEGES: RECS: COGAT: FG: LI: HOUSE: CR: MINORITY:
+        self.grade = grade
+        self.Class = Class
+        self.mentees = {}
+        self.recs = {}
+        self.cogat = cogat
+        self.firstgen = firstgen
+        self.lowincome = lowincome
+        self.house = house
+        self.classrank = classrank
+        self.minority = minority
+        self.parentoneemail = parentoneemail
+        self.parentonenum = parentonenum
+        self.parenttwoemail = parenttwoemail
+        self.parenttwonum = parenttwonum

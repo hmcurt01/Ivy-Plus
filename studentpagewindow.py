@@ -34,7 +34,7 @@ class StudentPageWindow:
                         totalcolleges += 1
                         if student_dict[i].colleges[o].accept == "Yes":
                             accepted += 1
-                    totalaid += int(student_dict[i].colleges[o].aid)
+                    totalaid += float(student_dict[i].colleges[o].aid)
 
         self.widgets["addStudentEntry"] = Entry(root)
         self.widgets["addStudentEntry"].place(relx=.5, rely=.97, anchor=CENTER)
