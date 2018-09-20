@@ -4,6 +4,7 @@ from student import Student
 from data import root
 from data import student_dict
 from data import save
+from printdata import printdict
 
 class StudentPageWindow:
     def __init__(self, currentgrade):
@@ -60,16 +61,27 @@ class StudentPageWindow:
         self.choosequick = StringVar()
         self.choosequick.set("Quick Add/View")
         self.chooselist = ["ACT", "GPA", "RACE", "NAME", "EMAIL", "PASSW", "EMAIL", "NEXTMEET", "LASTMEET",
-                           "MEETAMOUNT", "MENTEEHOURS", "COGAT", "FIRSTGEN", "LOWINCOME", "HOUSE", "CLASSRANK", "MINORITY", "PARENTONEEMAIL",
+                           "MEETAMOUNT", "MENTEEHOURS", "COGAT", "FIRSTGEN", "LOWINCOME", "HOUSE", "CLASSRANK",
+                           "MINORITY", "PARENTONEEMAIL",
                            "PARENTONENUM", "PARENTTWOEMAIL", "PARENTTWONUM", "COLLEGE", "REC"]
         self.widgets["quickadd"] = OptionMenu(root, self.choosequick, *self.chooselist, command=lambda _:
         self.next(self.choosequick.get(), "quick"))
-        self.widgets["quickadd"].place(in_=self.widgets["removeStudentButton"], relx=1, rely=1.09, anchor=SW, bordermode=
+        self.widgets["quickadd"].place(in_=self.widgets["removeStudentButton"], relx=1, rely=1.09, anchor=SW,
+                                       bordermode=
                                        "outside")
 
+        self.widgets["copystats"] = Button(root, text="Copy Stats", command=lambda: printdict("stats",
+                                                                                              self.currentgrade))
+        self.widgets["copystats"].place(in_=self.widgets["quickadd"], relx=1, rely=.92, anchor=SW, bordermode="outside")
+
+        self.widgets["copyinfo"] = Button(root, text="Copy Personal Info", command=lambda: printdict("info",
+                                                                                              self.currentgrade))
+        self.widgets["copyinfo"].place(in_=self.widgets["copystats"], relx=1, rely=1, anchor=SW, bordermode="outside")
+
         self.widgets["removeButton"] = Button(root, text="Delete Class", command=lambda: self.remove_class(1, "na"))
-        self.widgets["removeButton"].place(in_=self.widgets["quickadd"], relx=1, rely=.92, anchor=SW,
+        self.widgets["removeButton"].place(in_=self.widgets["copyinfo"], relx=1, rely=1, anchor=SW,
                                            bordermode="outside")
+
     def create_dropdown(self):
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
