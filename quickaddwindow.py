@@ -10,9 +10,11 @@ class QuickAddWindow:
         self.studentamt = 0
         self.draw_main()
 
+    #draw main window
     def draw_main(self):
         xcor = 0
         vcmd = (root.register(self.callback))
+        vcmd_y = (root.register(self.callback_y))
         self.widgets["backButton"] = Button(root, text="Back", command=lambda: self.back())
         self.widgets["backButton"].place(relx=0, rely=0, anchor=NW, bordermode="outside")
         self.widgets["iden"] = Label(root, text=self.which.upper())
@@ -49,7 +51,11 @@ class QuickAddWindow:
                             == "menteehours" or self.which == "cogat" or self.which == "classrank":
                         self.widgets["entry"][i].config(validate="key")
                         self.widgets["entry"][i].config(validatecommand=(vcmd, '%P'))
+                    if self.which == "minority" or self.which == "firstgen" or self.which == "lowincome":
+                        self.widgets["entry"][i].config(validate="key")
+                        self.widgets["entry"][i].config(validatecommand=(vcmd_y, "%P"))
 
+    #add college to student
     def add_college(self, value):
         student_dict[value].collegeAmount += 1
         student_dict[value].change_attr("college", key=student_dict[value].collegeAmount,
@@ -57,26 +63,43 @@ class QuickAddWindow:
                                                     "No", "No", "No", "No", "No", "No", "No", ""))
         self.widgets["entry"][value].delete(0, END)
 
+    #sets function of rec and college buttons
     def set_function(self, what, value):
         if what == "college":
             self.widgets[value + "addcollege"].config(command=lambda: self.add_college(value))
         else:
             self.widgets[value + "addrec"].config(command=lambda: self.add_rec(value))
 
+    #add rec to student
     def add_rec(self, value):
         newrec = str(len(student_dict[value].recs) + 1) + self.widgets["entry"][value].get()
         student_dict[value].change_attr("recs", self.widgets["entry"][value].get(),
                                              newrec)
         self.widgets["entry"][value].delete(0, END)
 
+    #makes sure entrys only allow numbers
     def callback(self, P):
-        if str.isdigit(P) or P == "":
+        try:
+            if P == "":
+                return True
+            float(P)
+            return True
+        except ValueError:
+            return False
+
+    def callback_y(self, P):
+        if (P == "y" or P == "Y" or P == "" or P == "N" or P == "n") and len(P) < 2:
             return True
         else:
             return False
 
-
+    #go back to student page window
     def back(self):
+        self.save_and_erase()
+        StudentPageWindow(self.currentgrade)
+
+    #saves and erases page
+    def save_and_erase(self):
         for i in self.widgets:
             if i == "entry":
                 for o in self.widgets["entry"]:
@@ -87,7 +110,6 @@ class QuickAddWindow:
             else:
                 self.widgets[i].destroy()
         self.widgets.clear()
-        StudentPageWindow(self.currentgrade)
 
 from studentpagewindow import StudentPageWindow
 from college import College
