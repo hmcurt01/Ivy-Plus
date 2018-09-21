@@ -45,7 +45,7 @@ class StudentPageWindow:
 
         self.widgets["backButton"] = Button(root, text="Back", command=lambda: self.back())
         self.widgets["backButton"].place(relx=0, rely=0, anchor=NW, bordermode="outside")
-        self.create_dropdown()
+        self.create_designate_dropdown()
         self.widgets["designate"] = OptionMenu(root, self.optionvalue, *self.options,
                                                command=lambda _: self.designate(self.optionvalue.get()))
         self.widgets["designate"].place(in_=self.widgets["backButton"], relx=1, rely=1.09, anchor=SW,
@@ -81,8 +81,8 @@ class StudentPageWindow:
         self.widgets["removeButton"] = Button(root, text="Delete Class", command=lambda: self.remove_class(1, "na"))
         self.widgets["removeButton"].place(in_=self.widgets["copyinfo"], relx=1, rely=1, anchor=SW,
                                            bordermode="outside")
-
-    def create_dropdown(self):
+    #create dropdown to designate class
+    def create_designate_dropdown(self):
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
                 if student_dict[i].Class != "":
@@ -92,11 +92,13 @@ class StudentPageWindow:
                             student_dict[i].grade != self.currentgrade:
                 self.options.remove(student_dict[i].Class)
 
+    #designate class as senior, junior, etc
     def designate(self, var):
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
                 student_dict[i].change_attr("Class", var, "na")
 
+    #change function of widget
     def change_function(self, var, step, value, what):
         self.widgets[var].config(command=lambda: self.remove_student(step, value, what))
 
@@ -189,15 +191,6 @@ class StudentPageWindow:
             QuickAddWindow(iden, self.currentgrade)
         else:
             StudentStatsWindow(self.currentgrade)
-
-    def copy(self):
-        badterms = ["parenttwonum", "parenttwoemail", "parentonenum", "parentoneemail", "Class"]
-        for i in student_dict:
-            print(student_dict[i].name[0:20], end=" ")
-            for o, char in sorted(student_dict[i].__dict__.items()):
-                if o not in badterms:
-                    print(o + ": " + str(char), end=" ")
-            print("\n")
 
 from gradewindow import GradeWindow
 from studentstatswindow import StudentStatsWindow
