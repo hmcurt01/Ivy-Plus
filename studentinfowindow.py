@@ -23,6 +23,18 @@ class StudentInfoWindow:
         except ValueError:
             return False
 
+    def next_student(self, which):
+        self.save_and_erase()
+        allstudents = []
+        for i in student_dict:
+            if student_dict[i].grade == self.currentgrade:
+                allstudents.append(i)
+        if allstudents.index(self.value) == len(allstudents) - 1 and which == 1:
+            StudentInfoWindow(allstudents[0], self.currentgrade)
+        else:
+            StudentInfoWindow(allstudents[allstudents.index(self.value) + which], self.currentgrade)
+        print(allstudents.index(self.value), student_dict[self.value].name)
+
     # changes the color and value of a selected college attr
     def change_color(self, value, college, attr, char):
         newcolor = ""
@@ -246,16 +258,26 @@ class StudentInfoWindow:
         for i in student_dict[value].colleges:
             totalaid += float(student_dict[value].colleges[i].aid)
 
+        self.widgets["main"]["name"] = Label(root, text=student_dict[self.value].name)
+        self.widgets["main"]["name"].place(relx=.5, rely=0, anchor=N)
+
         self.widgets["main"]["totalaid"] = Label(root, text="Total Aid: " + '${:,.2f}'.format(totalaid), bg="lightgrey", height=2)
         self.widgets["main"]["totalaid"].place(anchor=SW, relx=0, rely=1)
 
-        self.widgets["main"]["backButton"] = Button(root, text="Back", command=lambda: self.back(value))
+        self.widgets["main"]["backButton"] = Button(root, text="Back", command=lambda: self.back())
         self.widgets["main"]["backButton"].place(relx=0, rely=0, anchor=NW)
 
         self.widgets["main"]["deleteButton"] = Button(root, text="Delete",
                                                       command=lambda: self.delete_widget(value, "1", "na", "na"))
         self.widgets["main"]["deleteButton"].place(in_=self.widgets["main"]["backButton"], relx=1, rely=1, anchor=SW,
                                                    bordermode="outside")
+        self.widgets["main"]["laststudent"] = Button(root, text="Last Student", command=lambda: self.next_student(-1))
+        self.widgets["main"]["laststudent"].place(in_=self.widgets["main"]["deleteButton"], relx=1, rely=1, anchor=SW,
+                                                  bordermode="outside")
+
+        self.widgets["main"]["nextstudent"] = Button(root, text="Next Student", command=lambda: self.next_student(1))
+        self.widgets["main"]["nextstudent"].place(in_=self.widgets["main"]["laststudent"], relx=1, rely=1, anchor=SW,
+                                                  bordermode="outside")
 
         self.widgets["main"]["addCollegeEntry"] = Entry(root)
         self.widgets["main"]["addCollegeEntry"].place(relx=.5, rely=.97, anchor=CENTER)
@@ -342,7 +364,11 @@ class StudentInfoWindow:
             self.widgets["recs"][rec].config(bg="tomato")
 
     # goes back to student page, destroys all currently displayed widgets
-    def back(self, value):
+    def back(self):
+        self.save_and_erase()
+        StudentPageWindow(self.currentgrade)
+
+    def save_and_erase(self):
         self.save_aid()
         self.erase_colleges()
         for i in self.widgets["main"]:
@@ -354,11 +380,10 @@ class StudentInfoWindow:
                     except ValueError:
                         self.widgets["main"][i].delete(0, "end")
                         self.widgets["main"][i].insert(0, 0)
-                student_dict[value].change_attr(o[0], (self.widgets["main"][i].get()).replace(" ", ""), "na")
+                student_dict[self.value].change_attr(o[0], (self.widgets["main"][i].get()).replace(" ", ""), "na")
             self.widgets["main"][i].destroy()
         self.widgets.clear()
         self.widgetList[:] = []
-        StudentPageWindow(self.currentgrade)
 
     # adds college to selected student
     def add_college(self, value):
