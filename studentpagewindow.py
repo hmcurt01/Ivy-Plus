@@ -16,9 +16,6 @@ class StudentPageWindow:
         self.optionvalue = StringVar()
         self.optionvalue.set("Designate Class")
         self.draw_main()
-        #for i in range(120):
-         #   self.widgets["addStudentEntry"].insert(0, i)
-          #  self.add_student()
 
     # draws all students and add student button/entry
     def draw_main(self):

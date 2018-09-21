@@ -6,9 +6,13 @@ from data import student_dict
 
 class StudentStatsWindow:
     def __init__(self, currentgrade):
+        selectall
         self.currentgrade=currentgrade
         self.widgets = {}
         self.draw_main()
+
+    def selectall(self, event):
+        event.widget.tag_add("sel", "1.0", END)
 
     #draw main window
     def draw_main(self):

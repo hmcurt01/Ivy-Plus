@@ -4,7 +4,6 @@ from studentpagewindow import StudentPageWindow
 from data import root
 from data import student_dict
 
-
 # student info class, displays information for selected student
 class StudentInfoWindow:
     def __init__(self, value, currentgrade):
@@ -264,6 +263,7 @@ class StudentInfoWindow:
 
     # draws main page
     def draw_main(self, value):
+        #root.bind_class("Text", "<Control-a>", event.widget.tag_add("sel","1.0",END))
         vcmd = (root.register(self.callback))
         vcmd_y = (root.register(self.callback_y))
         totalaid = 0
