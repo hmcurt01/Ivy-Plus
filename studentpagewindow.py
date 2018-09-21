@@ -161,8 +161,8 @@ class StudentPageWindow:
         choices = "abcdefghijklmnopqrstuvwxyz123456789"
         for i in range(6):
             hash += choices[randint(0, 34)]
-        student_dict[hash] = Student(0, 0, "", self.widgets["addStudentEntry"].get(), "", "", "", "", 0, 0,
-                                     self.currentgrade, self.optionvalue.get(), 0, "", "", "", ""
+        student_dict[hash] = Student("", "", "", self.widgets["addStudentEntry"].get(), "", "", "", "", "", "",
+                                     self.currentgrade, self.optionvalue.get(), "", "", "", "", ""
                                      , "", "", "", "", "")
         self.widgets["addStudentEntry"].delete(0, END)
         self.draw_student(student_dict[hash], hash)

@@ -62,7 +62,10 @@ class StudentInfoWindow:
     def save_aid(self):
         for i in self.widgets["colleges"]:
             if i != "clist" and i != "others":
-                student_dict[self.value].colleges[i].aid = \
+                if self.widgets["colleges"][i]["aidentry"].get() == "":
+                    student_dict[self.value].colleges[i].aid = 0
+                else:
+                    student_dict[self.value].colleges[i].aid = \
                     self.widgets["colleges"][i]["aidentry"].get().replace(" ", "")
 
     # erases all colleges

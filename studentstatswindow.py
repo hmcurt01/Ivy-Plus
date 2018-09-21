@@ -111,13 +111,13 @@ class StudentStatsWindow:
                                               bg="grey62")
         self.widgets["totalstudents"].place(in_=self.widgets["avgaid"], anchor=SW, relx=0, rely=2, bordermode="outside")
 
-        self.widgets["avgmeetamount"] = Label(root, text="Average Meet Amount: " + str(avgmeetamount), height=2,
+        self.widgets["avgmeetamount"] = Label(root, text="Average Meet Amount: " + '%.2f' % avgmeetamount, height=2,
                                               width=30,
                                               )
         self.widgets["avgmeetamount"].place(in_=self.widgets["totalstudents"], anchor=SW, relx=0, rely=2,
                                             bordermode="outside")
 
-        self.widgets["avgact"] = Label(root, text="Average ACT: " + str(avgact), height=2,
+        self.widgets["avgact"] = Label(root, text="Average ACT: " + '%.2f' % avgact, height=2,
                                        width=30, bg="lightgrey"
                                        )
         self.widgets["avgact"].place(in_=self.widgets["avgmeetamount"], anchor=SW, relx=0, rely=2,
