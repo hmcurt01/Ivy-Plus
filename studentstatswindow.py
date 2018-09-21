@@ -26,6 +26,21 @@ class StudentStatsWindow:
         firstgen = 0
         cogat = 0
 
+        studentamts = {
+            "totalaid":0,
+            "accepted":0,
+            "totalcolleges":0,
+            "studentamt":0,
+            "gpa":0,
+            "meetamount":0,
+            "act":0,
+            "menteehours":0,
+            "minor":0,
+            "li":0,
+            "firstgen":0,
+            "cogat":0
+        }
+
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
                 for o in student_dict[i].colleges:
@@ -36,36 +51,46 @@ class StudentStatsWindow:
                     totalaid += float(student_dict[i].colleges[o].aid)
                 if student_dict[i].meetamount != "":
                     meetamount += float(student_dict[i].meetamount)
+                    studentamts["meetamount"] += 1
                 if student_dict[i].act != "":
                     act += float(student_dict[i].act)
+                    studentamts["act"] += 1
                 if student_dict[i].menteehours != "":
                     menteehours += float(student_dict[i].menteehours)
+                    studentamts["menteehours"] += 1
                 if student_dict[i].gpa != "":
                     gpa += float(student_dict[i].gpa)
+                    studentamts["gpa"] += 1
                 if student_dict[i].cogat != "":
                     cogat += float(student_dict[i].cogat)
+                    studentamts["cogat"] += 1
                 if student_dict[i].minority == "Y" or student_dict[i].minority == "y":
                     minor += 1
+                    studentamts["minority"] += 1
                 if student_dict[i].lowincome == "Y" or student_dict[i].minority == "n":
                     li += 1
+                    studentamts["li"] += 1
                 if student_dict[i].firstgen == "Y" or student_dict[i].firstgen == "n":
                     firstgen += 1
+                    studentamts["firstgen"] += 1
                 studentamt += 1
 
         try:
             avgaccept = float(accepted) / float(totalcolleges) * 100
         except ZeroDivisionError:
             avgaccept = 0
-
-        avggpa = float(gpa) / float(studentamt)
-        avgaid = float(totalaid) / float(studentamt)
-        avgmeetamount = meetamount / studentamt
-        avgact = act / studentamt
-        avgmenteehours = menteehours / studentamt
-        minor = minor / studentamt * 100
-        li = li / studentamt * 100
-        cogat = cogat / studentamt * 100
-        firstgen = firstgen / studentamt * 100
+        for i in studentamts:
+            if studentamts[i] == 0:
+                studentamts[i] = 1
+        avggpa = float(gpa) / studentamts["gpa"]
+        avgaid = float(totalaid) / studentamts["totalaid"]
+        avgmeetamount = meetamount / studentamts["meetamount"]
+        avgact = act / studentamts["act"]
+        avgmenteehours = menteehours / studentamts["menteehours"]
+        minor = minor / studentamts["minor"] * 100
+        li = li / studentamts["li"] * 100
+        cogat = cogat / studentamts["cogat"] * 100
+        firstgen = firstgen / studentamts["firstgen"] * 100
 
         self.widgets["totalaid"] = Label(root, text="Total Aid: " + '${:,.2f}'.format(totalaid), bg="lightgrey", bd=2,
                                          height=2, width=30)

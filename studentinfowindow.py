@@ -33,7 +33,6 @@ class StudentInfoWindow:
             StudentInfoWindow(allstudents[0], self.currentgrade)
         else:
             StudentInfoWindow(allstudents[allstudents.index(self.value) + which], self.currentgrade)
-        print(allstudents.index(self.value), student_dict[self.value].name)
 
     # changes the color and value of a selected college attr
     def change_color(self, value, college, attr, char):
