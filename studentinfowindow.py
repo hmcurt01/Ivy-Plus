@@ -14,6 +14,7 @@ class StudentInfoWindow:
         self.value = value
         self.draw_main(value)
 
+    #entry validation - only allow floats
     def callback(self, P):
         try:
             if P == "":
@@ -23,6 +24,7 @@ class StudentInfoWindow:
         except ValueError:
             return False
 
+    #goes to student in dictionary one place from current student based on which
     def next_student(self, which):
         self.save_and_erase()
         allstudents = []
@@ -59,6 +61,7 @@ class StudentInfoWindow:
             command=lambda: self.change_color(value, college, attr,
                                               newfuncdict[newcolor]))
 
+    #saves aid of all colleges
     def save_aid(self):
         for i in self.widgets["colleges"]:
             if i != "clist" and i != "others":
@@ -101,6 +104,7 @@ class StudentInfoWindow:
             self.widgets["colleges"][college][str(college) + "accept"].place(relx=0, rely=.1, anchor=SW,
                                                                              bordermode="outside")
             self.widgets["colleges"]["clist"].append(self.widgets["colleges"][college][str(college) + "accept"])
+
         self.count = 1
         for key, char in sorted(student_dict[value].colleges[college].__dict__.items()):
             if key == "name" or key == "accept" or key == "aid":
@@ -177,11 +181,13 @@ class StudentInfoWindow:
                                                         bg="SystemButtonFace")
             self.widgets["main"]["deleteButton"].config(bg="SystemButtonFace")
 
+    #erase all mentees
     def erase_mentees(self):
         for i in self.widgets["mentees"]:
             self.widgets["mentees"][i].destroy()
         self.widgets["mentees"].clear()
 
+    #erase all recs
     def erase_recs(self):
         for i in self.widgets["recs"]:
             self.widgets["recs"][i].destroy()
@@ -212,6 +218,7 @@ class StudentInfoWindow:
             self.widgets["listbox"].insert(END, "NO MENTEES/MENTORS TO ADD")
         self.widgets["addMenteeButton"].config(command=lambda: self.mentee_dropdown_destroy())
 
+    #add single mentee to student object and draw said mentee
     def add_mentee(self, event):
         if student_dict[self.value].Class == "Senior":
             menteevalue = "Freshman"
@@ -229,12 +236,14 @@ class StudentInfoWindow:
         self.draw_mentee(value, newmentee)
         self.mentee_dropdown_destroy()
 
+    #erase mentee listbox/dropdown
     def mentee_dropdown_destroy(self):
         self.widgets["listbox"].destroy()
         self.widgets["yscroll"].destroy()
         self.widgets["frame"].destroy()
         self.widgets["addMenteeButton"].config(command=lambda: self.draw_mentee_listbox(self.value))
 
+    #draw single mentee
     def draw_mentee(self, value, iden):
         self.widgets["mentees"][iden] = Button(text=value + ", ", width=10)
         self.widgets["mentees"][iden].place \
@@ -246,6 +255,7 @@ class StudentInfoWindow:
             in_=self.widgets["mentees"][iden], relx=1, rely=1, anchor=SW,
             bordermode="outside")
 
+    #only allow for y or n values - entry validation
     def callback_y(self, P):
         if (P == "y" or P == "Y" or P == "" or P == "N" or P == "n") and len(P) < 2:
             return True
@@ -340,6 +350,7 @@ class StudentInfoWindow:
         for i in student_dict[self.value].recs:
             self.draw_rec(student_dict[self.value].recs[i].name, i)
 
+    #add rec to student object, call draw rec function
     def add_rec(self):
         newrec = str(len(student_dict[self.value].recs) + 1) + self.widgets["addRecEntry"].get()
         student_dict[self.value].change_attr("recs", self.widgets["addRecEntry"].get(),
@@ -347,6 +358,7 @@ class StudentInfoWindow:
         self.draw_rec(self.widgets["addRecEntry"].get(), newrec)
         self.widgets["addRecEntry"].delete(0, END)
 
+    #draw single rec
     def draw_rec(self, value, iden):
         if student_dict[self.value].recs[iden].status == "":
             color = "tomato"
@@ -357,6 +369,7 @@ class StudentInfoWindow:
         self.widgets["recs"][iden].place(in_=self.widgets["addRecButton"], relx=0, rely=len(self.widgets["recs"]) + 1,
                                          anchor=SW, bordermode="outside")
 
+    #change color of rec and rec status within student object
     def change_rec_color(self, rec):
         if student_dict[self.value].recs[rec].status == "":
             student_dict[self.value].recs[rec].status = "Yes"
@@ -370,6 +383,7 @@ class StudentInfoWindow:
         self.save_and_erase()
         StudentPageWindow(self.currentgrade)
 
+    #save data to student object and erase page
     def save_and_erase(self):
         self.save_aid()
         self.erase_colleges()

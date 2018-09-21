@@ -10,6 +10,7 @@ class StudentStatsWindow:
         self.widgets = {}
         self.draw_main()
 
+    #draw main window
     def draw_main(self):
         self.widgets["backButton"] = Button(root, text="Back", command=lambda: self.back())
         self.widgets["backButton"].place(relx=0, rely=0, anchor=NW, bordermode="outside")
@@ -146,7 +147,7 @@ class StudentStatsWindow:
         self.widgets["firstgen"].place(in_=self.widgets["avgcogat"], anchor=SW, relx=0, rely=2, bordermode="outside")
 
 
-
+    #back to student page
     def back(self):
         for i in self.widgets:
             self.widgets[i].destroy()

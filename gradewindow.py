@@ -12,6 +12,7 @@ class GradeWindow:
         self.classes = []
         self.draw_main()
 
+    #draw main screen
     def draw_main(self):
 
         for i in student_dict:

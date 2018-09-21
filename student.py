@@ -4,7 +4,8 @@ from mentee import Mentee
 
 # student class
 class Student:
-    def __init__(self, act, gpa, race, name, email, passw, lastmeet, nextmeet, meetamount, menteehours, grade, Class, cogat, firstgen, lowincome, house, classrank,
+    def __init__(self, act, gpa, race, name, email, passw, lastmeet, nextmeet, meetamount, menteehours,
+                 grade, Class, cogat, firstgen, lowincome, house, classrank,
                  minority, parentoneemail, parentonenum, parenttwoemail, parenttwonum):
         self.act = act
         self.gpa = gpa

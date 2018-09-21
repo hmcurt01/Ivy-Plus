@@ -1,5 +1,7 @@
 from data import student_dict
 import pyperclip
+
+#convert student dict into text
 def printdict(value, grade):
     studentamt = 0
     if value == "stats":
@@ -49,6 +51,8 @@ def printdict(value, grade):
                         datastring = datastring + "\n"
                 datastring = datastring + "\n"
     pyperclip.copy(datastring)
+
+#add blank space to short string
 def short_string(str, length):
         if len(str) < length:
             while len(str) < length-1:
