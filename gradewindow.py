@@ -41,6 +41,8 @@ class GradeWindow:
 
     # add class to class list
     def add_class(self):
+        if "Please Add a Class" in self.classes:
+            self.classes.remove("Please Add a Class")
         self.classes.append(self.widgets["addClassEntry"].get())
         self.widgets["addClassEntry"].delete(0, END)
         self.widgets["chooseOption"].destroy()
