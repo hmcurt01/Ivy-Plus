@@ -29,5 +29,6 @@ student_dict = load()
 
 global root
 root = Tk()
+root.title("Ivy Plus")
 
 

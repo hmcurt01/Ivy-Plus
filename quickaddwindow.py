@@ -12,20 +12,20 @@ class QuickAddWindow:
 
     #draw main window
     def draw_main(self):
-        xcor = 0
+        xcor = 1
         vcmd = (root.register(self.callback))
         vcmd_y = (root.register(self.callback_y))
         self.widgets["backButton"] = Button(root, text="Back", command=lambda: self.back())
         self.widgets["backButton"].place(relx=0, rely=0, anchor=NW, bordermode="outside")
         self.widgets["iden"] = Label(root, text=self.which.upper())
         self.widgets["iden"].place(in_=self.widgets["backButton"], relx=1, rely=1, anchor=SW, bordermode="outside")
-        for i in student_dict:
+        for i in sorted(student_dict):
             if student_dict[i].grade == self.currentgrade:
                 self.studentamt += 1
                 if self.studentamt > 24:
                     self.studentamt = 1
-                    xcor += 4
-                self.widgets[i+"label"] = Label(root, text=student_dict[i].name + ":", width=10)
+                    xcor += 6
+                self.widgets[i+"label"] = Label(root, text=student_dict[i].name[:15] + ":", width=22)
                 self.widgets[i+"label"].place(in_=self.widgets["backButton"], anchor=SW, relx=xcor,
                                               rely=1+self.studentamt, bordermode="outside")
 

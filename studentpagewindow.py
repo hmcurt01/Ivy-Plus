@@ -26,6 +26,9 @@ class StudentPageWindow:
         totalcolleges = 0
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
+                self.widgets[student_dict[i].name + student_dict[i] + "student"] = Button(root, text=value.name[:16],
+                                                                                          height=1, width=23,
+                                                    command=lambda: self.next(iden, "info"))
                 self.draw_student(student_dict[i], i)
                 for o in student_dict[i].colleges:
                     if student_dict[i].colleges[o].accept == "Yes" or student_dict[i].colleges[o].accept == "No":
@@ -164,18 +167,17 @@ class StudentPageWindow:
                                      self.currentgrade, self.optionvalue.get(), "", "", "", "", ""
                                      , "", "", "", "", "")
         self.widgets["addStudentEntry"].delete(0, END)
-        self.draw_student(student_dict[hash], hash)
+        self.draw_student(student_dict[hash], hash, self.widgets["addStudentEntry"].get())
 
     # draws one student button
-    def draw_student(self, value, iden):
+    def draw_student(self, value, iden, name):
         self.xCor += .125
         if self.xCor > .875:
             self.xCor = .125
             self.yCor += .05
         else:
             pass
-        self.widgets[value] = Button(root, text=value.name, height=1, width=20, command=lambda: self.next(iden, "info"))
-        self.widgets[value].place(relx=self.xCor, rely=self.yCor, anchor=CENTER)
+        self.widgets[name+value+"student"].place(relx=self.xCor, rely=self.yCor, anchor=CENTER)
 
     # calls StudentInfoWindow, deletes all currently displayed widgets
     def next(self, iden, which):
