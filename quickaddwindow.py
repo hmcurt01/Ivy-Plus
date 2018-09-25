@@ -19,8 +19,13 @@ class QuickAddWindow:
         self.widgets["backButton"].place(relx=0, rely=0, anchor=NW, bordermode="outside")
         self.widgets["iden"] = Label(root, text=self.which.upper())
         self.widgets["iden"].place(in_=self.widgets["backButton"], relx=1, rely=1, anchor=SW, bordermode="outside")
-        for i in sorted(student_dict):
-            if student_dict[i].grade == self.currentgrade:
+        sortednames = {}
+        for o in student_dict:
+            if student_dict[o].grade == self.currentgrade:
+                sortednames[o] = student_dict[o].name
+
+        for i in sorted(sortednames.items(), key=lambda kv: (kv[1], kv[0])):
+                i = i[0]
                 self.studentamt += 1
                 if self.studentamt > 24:
                     self.studentamt = 1

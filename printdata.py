@@ -4,11 +4,16 @@ import pyperclip
 #convert student dict into text
 def printdict(value, grade):
     studentamt = 0
+    sortednames = {}
+    for o in student_dict:
+        if student_dict[o].grade == grade:
+            sortednames[o] = student_dict[o].name
     if value == "stats":
         label = "NAME                    " + "|ACT    |" + "C/RANK |" + "COGAT  |" + "F/GEN  |" + "GPA    |" + "HOUSE  |" +\
                      "L/I    |" + "MINOR  |" + "RACE   |"
         datastring = "Class of " + grade + ": \n\n" + label + "\n\n"
-        for i in student_dict:
+        for i in sorted(sortednames.items(), key=lambda kv: (kv[1], kv[0])):
+            i = i[0]
             if student_dict[i].grade == grade:
                 studentamt += 1
                 if studentamt > 20:
@@ -22,7 +27,8 @@ def printdict(value, grade):
                 datastring = datastring + "|" + "\n" + "\n"
     else:
         datastring = "Class of " + grade + ": \n\n"
-        for i in student_dict:
+        for i in sorted(sortednames.items(), key=lambda kv: (kv[1], kv[0])):
+            i = i[0]
             if student_dict[i].grade == grade:
                 datastring = datastring + student_dict[i].name + ": \n"
                 for key, char in student_dict[i].__dict__.items():
@@ -30,7 +36,6 @@ def printdict(value, grade):
                             and key != "house" and key != "lowincome" and key != "minority" and key != "race" and key\
                             != "colleges" and key != "mentees" and key != "recs" and key != "name" and key != "grade"\
                             and key != "Class":
-                        print(char)
                         if str(char).strip() == "Designate Class":
                             char == "Undesignated"
                         datastring = datastring + key.upper() + ": " + str(char) +"\n"

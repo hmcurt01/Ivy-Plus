@@ -12,12 +12,6 @@ def load():
         b = pickle.load(handle)
     return b
 
-def init():
-    root.bind_class("Text","<Control-a>", selectall)
-
-def selectall(event):
-    event.widget.tag_add("sel","1.0",END)
-
 # stores student objects
 global student_dict
 student_dict = {}

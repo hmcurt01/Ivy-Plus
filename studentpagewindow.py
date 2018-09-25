@@ -17,6 +17,9 @@ class StudentPageWindow:
         self.optionvalue.set("Designate Class")
         self.draw_main()
 
+    def set_function(self, key, iden):
+        self.widgets[key].config(command=lambda: self.next(iden, "info"))
+
     # draws all students and add student button/entry
     def draw_main(self):
         self.xCor = 0
@@ -26,16 +29,20 @@ class StudentPageWindow:
         totalcolleges = 0
         for i in student_dict:
             if student_dict[i].grade == self.currentgrade:
-                self.widgets[student_dict[i].name + student_dict[i] + "student"] = Button(root, text=value.name[:16],
-                                                                                          height=1, width=23,
-                                                    command=lambda: self.next(iden, "info"))
-                self.draw_student(student_dict[i], i)
+                self.widgets[student_dict[i].name + i + "student"] = Button(root,
+                                                                                    text=student_dict[i].name[:16],
+                                                                                        height=1, width=23)
+                self.set_function(student_dict[i].name + i + "student", i)
                 for o in student_dict[i].colleges:
                     if student_dict[i].colleges[o].accept == "Yes" or student_dict[i].colleges[o].accept == "No":
                         totalcolleges += 1
                         if student_dict[i].colleges[o].accept == "Yes":
                             accepted += 1
                     totalaid += float(student_dict[i].colleges[o].aid)
+
+        for o in sorted(self.widgets):
+            if "student" in o:
+                self.draw_student(o)
 
         self.widgets["addStudentEntry"] = Entry(root)
         self.widgets["addStudentEntry"].place(relx=.5, rely=.97, anchor=CENTER)
@@ -78,8 +85,11 @@ class StudentPageWindow:
                                                                                               self.currentgrade))
         self.widgets["copyinfo"].place(in_=self.widgets["copystats"], relx=1, rely=1, anchor=SW, bordermode="outside")
 
+        self.widgets["refresh"] = Button(root, text="Refresh", command=lambda: self.refresh())
+        self.widgets["refresh"].place(in_=self.widgets["copyinfo"], relx=1, rely=1, anchor=SW, bordermode="outside")
+
         self.widgets["removeButton"] = Button(root, text="Delete Class", command=lambda: self.remove_class(1, "na"))
-        self.widgets["removeButton"].place(in_=self.widgets["copyinfo"], relx=1, rely=1, anchor=SW,
+        self.widgets["removeButton"].place(in_=self.widgets["refresh"], relx=1, rely=1, anchor=SW,
                                            bordermode="outside")
     #create dropdown to designate class
     def create_designate_dropdown(self):
@@ -91,6 +101,10 @@ class StudentPageWindow:
             if student_dict[i].Class in self.options and student_dict[i].Class != ("Graduated" and "Other") and \
                             student_dict[i].grade != self.currentgrade:
                 self.options.remove(student_dict[i].Class)
+
+    def refresh(self):
+        self.clear()
+        self.draw_main()
 
     #designate class as senior, junior, etc
     def designate(self, var):
@@ -166,30 +180,38 @@ class StudentPageWindow:
         student_dict[hash] = Student("", "", "", self.widgets["addStudentEntry"].get(), "", "", "", "", "", "",
                                      self.currentgrade, self.optionvalue.get(), "", "", "", "", ""
                                      , "", "", "", "", "")
+        self.widgets[self.widgets["addStudentEntry"].get() + hash + "student"] = Button(root,
+                                                                    text=self.widgets["addStudentEntry"].get()[:16],
+                                                                                        height=1, width=23,
+                                                    command=lambda: self.next(hash, "info"))
+        self.draw_student(self.widgets["addStudentEntry"].get() + hash + "student")
         self.widgets["addStudentEntry"].delete(0, END)
-        self.draw_student(student_dict[hash], hash, self.widgets["addStudentEntry"].get())
 
     # draws one student button
-    def draw_student(self, value, iden, name):
+    def draw_student(self, key):
         self.xCor += .125
         if self.xCor > .875:
             self.xCor = .125
             self.yCor += .05
         else:
             pass
-        self.widgets[name+value+"student"].place(relx=self.xCor, rely=self.yCor, anchor=CENTER)
+        self.widgets[key].place(relx=self.xCor, rely=self.yCor, anchor=CENTER)
 
     # calls StudentInfoWindow, deletes all currently displayed widgets
     def next(self, iden, which):
-        for i in self.widgets:
-            self.widgets[i].destroy()
-        self.widgets.clear()
+        self.clear()
         if which == "info":
             StudentInfoWindow(iden, self.currentgrade)
         elif which == "quick":
             QuickAddWindow(iden, self.currentgrade)
         else:
             StudentStatsWindow(self.currentgrade)
+
+    def clear(self):
+            for i in self.widgets:
+                self.widgets[i].destroy()
+            self.widgets.clear()
+
 
 from gradewindow import GradeWindow
 from studentstatswindow import StudentStatsWindow

@@ -390,12 +390,6 @@ class StudentInfoWindow:
         for i in self.widgets["main"]:
             if "Entry" in i:
                 o = i.split("Entry")
-                if o[0] == "gpa" or o[0] == "act" or o[0] == "menteehours" or o[0] == "meetamount":
-                    try:
-                        test = float(self.widgets["main"][i].get().replace(" ", ""))
-                    except ValueError:
-                        self.widgets["main"][i].delete(0, "end")
-                        self.widgets["main"][i].insert(0, 0)
                 student_dict[self.value].change_attr(o[0], (self.widgets["main"][i].get()).replace(" ", ""), "na")
             self.widgets["main"][i].destroy()
         self.widgets.clear()
